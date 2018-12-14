@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\BaseController;
 use Symfony\Component\Routing\Annotation\Route;
 
 class DefaultController extends BaseController
@@ -13,7 +12,7 @@ class DefaultController extends BaseController
     public function index()
     {
         return $this->render('default/index.html.twig', [
-            'controller_name' => 'DefaultController',
+
         ]);
     }
 }

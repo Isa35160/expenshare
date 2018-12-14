@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="debt", indexes={@ORM\Index(name="fk_debt_person1_idx", columns={"from_id"}), @ORM\Index(name="fk_debt_person2_idx", columns={"to_id"})})
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
  */
 class Debt
 {
@@ -36,7 +37,7 @@ class Debt
     private $paid = '0';
 
     /**
-     * @var \Person
+     * @var Person
      *
      * @ORM\ManyToOne(targetEntity="Person")
      * @ORM\JoinColumns({
@@ -46,7 +47,7 @@ class Debt
     private $from;
 
     /**
-     * @var \Person
+     * @var Person
      *
      * @ORM\ManyToOne(targetEntity="Person")
      * @ORM\JoinColumns({

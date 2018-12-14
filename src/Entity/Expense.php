@@ -9,7 +9,9 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="expense", indexes={@ORM\Index(name="fk_expense_category1_idx", columns={"category_id"}), @ORM\Index(name="fk_expense_person1_idx", columns={"person_id"})})
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
  */
+
 class Expense
 {
     /**
@@ -43,9 +45,9 @@ class Expense
     private $createdAt;
 
     /**
-     * @var \Category
+     * @var Category
      *
-     * @ORM\ManyToOne(targetEntity="Category")
+     * @ORM\ManyToOne(targetEntity="Category", inversedBy="expense")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="category_id", referencedColumnName="id")
      * })
@@ -53,9 +55,9 @@ class Expense
     private $category;
 
     /**
-     * @var \Person
+     * @var Person
      *
-     * @ORM\ManyToOne(targetEntity="Person")
+     * @ORM\ManyToOne(targetEntity="Person", inversedBy="expense")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="person_id", referencedColumnName="id")
      * })
@@ -89,6 +91,19 @@ class Expense
         $this->amount = $amount;
 
         return $this;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue()
+    {
+        $this->createdAt = new \DateTime();
+    }
+
+    public function setUpdateAtValue()
+    {
+        $this->createdAt = new \DateTime();
     }
 
     public function getCreatedAt(): ?\DateTimeInterface
