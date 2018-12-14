@@ -55,5 +55,58 @@ class Debt
      */
     private $to;
 
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getAmount()
+    {
+        return $this->amount;
+    }
+
+    public function setAmount($amount): self
+    {
+        $this->amount = $amount;
+
+        return $this;
+    }
+
+    public function getPaid(): ?bool
+    {
+        return $this->paid;
+    }
+
+    public function setPaid(bool $paid): self
+    {
+        $this->paid = $paid;
+
+        return $this;
+    }
+
+    public function getFrom(): ?Person
+    {
+        return $this->from;
+    }
+
+    public function setFrom(?Person $from): self
+    {
+        $this->from = $from;
+
+        return $this;
+    }
+
+    public function getTo(): ?Person
+    {
+        return $this->to;
+    }
+
+    public function setTo(?Person $to): self
+    {
+        $this->to = $to;
+
+        return $this;
+    }
+
 
 }
