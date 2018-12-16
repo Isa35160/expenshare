@@ -5,12 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * Category
- *
- * @ORM\Table(name="category")
- * @ORM\Entity
- */
+
 class Category
 {
     /**
@@ -96,5 +91,9 @@ class Category
         return $this;
     }
 
+    public function __toString()
+    {
+        return $this->getLabel();
+    }
 
 }

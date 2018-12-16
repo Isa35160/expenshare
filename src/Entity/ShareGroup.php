@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  *  * @ORM\HasLifecycleCallbacks()
  */
+
 class ShareGroup
 {
     /**
@@ -63,6 +64,24 @@ class ShareGroup
         return $this->id;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getPerson()
+    {
+        return $this->person;
+    }
+
+    /**
+     * @param mixed $person
+     * @return ShareGroup
+     */
+    public function setPerson($person)
+    {
+        $this->person = $person;
+        return $this;
+    }
+
     public function getTitle(): ?string
     {
         return $this->title;
@@ -110,6 +129,9 @@ class ShareGroup
 
         return $this;
     }
-
+    public function __toString()
+    {
+        return $this->getTitle();
+    }
 
 }

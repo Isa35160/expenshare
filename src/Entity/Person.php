@@ -38,7 +38,7 @@ class Person
     /**
      * @var ShareGroup
      *
-     * @ORM\ManyToOne(targetEntity="ShareGroup" )
+     * @ORM\ManyToOne(targetEntity="ShareGroup", inversedBy="person" )
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="share_group_id", referencedColumnName="id")
      * })
@@ -160,6 +160,11 @@ class Person
         $this->shareGroup = $shareGroup;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getFirstname();
     }
 
 
