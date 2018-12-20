@@ -5,6 +5,14 @@ namespace App\Entity;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * Category
+ *
+ * @ORM\Table(name="category")
+ * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
+ */
+
 
 class Category
 {
@@ -32,15 +40,9 @@ class Category
     private $icon;
 
     /**
-     * @return mixed
-     */
-
-
-    /**
-     * @var
+     * @var Expense
      * @ORM\OneToMany(targetEntity="Expense", mappedBy="category")
      */
-
     private $expense;
 
 
@@ -90,6 +92,7 @@ class Category
 
         return $this;
     }
+
 
     public function __toString()
     {

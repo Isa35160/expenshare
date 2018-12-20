@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Category;
+use App\Entity\ShareGroup;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,28 +20,17 @@ class CategoryController extends BaseController
 {
 
     /**
-     * @Route("/", name="category_list", methods="GET")
+     * @Route("/", name="category", methods="GET")
      */
-    public function index(Request $request)
+    public function index()
     {
         $categories = $this->getDoctrine()->getRepository(Category::class)
             ->createQueryBuilder('c')
+            ->select('c')
             ->getQuery()
-            ->getArrayResult();
+            ->getArrayResult()
+        ;
 
-        if ($request->isXmlHttpRequest()) {
-            return $this->json($categories);
-        }
-
-    }
-
-    /**
-     * @Route("/show", name="category")
-     */
-    public function show()
-    {
-        return $this->render('category/index.html.twig', [
-            'controller_name' => 'CategoryController',
-        ]);
+        return $this->json($categories);
     }
 }

@@ -3,75 +3,54 @@
 namespace App\Controller;
 
 use App\Entity\ShareGroup;
-use App\Form\ShareGroupFrom;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class ShareGroupController
  * @package App\Controller
- * @Route("/share_group")
+ * @Route("/sharegroup")
  */
-
 class ShareGroupController extends BaseController
 {
-
     /**
-     * @Route("/", name="share_group_list", methods="GET")
+     * @Route("/{slug}", name="sharegroup_get", methods="GET")
      */
-    public function index(Request $request)
+    public function index(ShareGroup $shareGroup)
     {
-        $sharegroups = $this->getDoctrine()->getRepository(ShareGroup::class)
-            ->createQueryBuilder('s')
+        $group = $this->getDoctrine()->getRepository(ShareGroup::class)
+            ->createQueryBuilder('g')
+            ->select('g', 'p', 'e')
+            ->join('g.person', 'p')
+            ->join('p.expense', 'e')
+            ->where('g.slug = :group')
+            ->setParameter(':group', $shareGroup->getSlug())
             ->getQuery()
             ->getArrayResult();
 
-        if ($request->isXmlHttpRequest()) {
-            return $this->json($sharegroups);
-        }
-
-    }
-
-
-    /**
-     * @Route("/", name="share_group")
-     */
-    public function show()
-    {
-//        return $this->render('share_group/index.html.twig', [
-//            'controller_name' => 'ShareGroupController',
-//        ]);
+        return $this->json($group[0]);
     }
 
     /**
-     * @Route("/new", name="share_group_new", methods="POST")
+     * @Route("/", name="sharegroup_new", methods="POST")
      */
     public function new(Request $request)
-
     {
+        $data = $request->getContent();
+
+        $jsonData = json_decode($data, true);
+
+        $em = $this->getDoctrine()->getManager();
+
         $sharegroup = new ShareGroup();
+        $sharegroup->setSlug($jsonData["slug"]);
+        $sharegroup->setCreatedAt(new \DateTime());
+        $sharegroup->setClosed(false);
 
-        $form = $this->createForm(ShareGroupFrom::class, $sharegroup);
+        $em->persist($sharegroup);
+        $em->flush();
 
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid())
-        {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($sharegroup);
-            $em->flush();
-
-            if ($request->isXmlHttpRequest()) {
-                return $this->json($sharegroup);
-            }
-
-//            return $this->redirectToRoute('homepage');
-        }
-
-//        return $this->render('author/new.html.twig', ['form' =>$form->createView()]);
+        return $this->json($this->serialize($sharegroup));
     }
-
 
 }

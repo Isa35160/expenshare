@@ -1,9 +1,12 @@
 easy_admin:
   site_name: 'ExpenShare'
+  formats:
+    datetime: 'd/m/Y'
   design:
     brand_color: '#1ABC9C'
   entities:
     - App\Entity\ShareGroup
     - App\Entity\Person
+    - App\Entity\Category
     - App\Entity\Expense
     - App\Entity\Debt

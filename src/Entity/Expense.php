@@ -3,6 +3,9 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+
 
 /**
  * Expense
@@ -44,6 +47,7 @@ class Expense
      */
     private $createdAt;
 
+
     /**
      * @var Category
      *
@@ -53,6 +57,11 @@ class Expense
      * })
      */
     private $category;
+
+    public function __construct()
+    {
+        $this->person = new ArrayCollection();
+    }
 
     /**
      * @var Person
@@ -118,6 +127,24 @@ class Expense
         return $this;
     }
 
+    /**
+     * @return Person
+     */
+    public function getPerson(): Person
+    {
+        return $this->person;
+    }
+
+    /**
+     * @param Person $person
+     */
+    public function setPerson(Person $person): void
+    {
+        $this->person = $person;
+    }
+
+
+
     public function getCategory(): ?Category
     {
         return $this->category;
@@ -130,17 +157,6 @@ class Expense
         return $this;
     }
 
-    public function getPerson(): ?Person
-    {
-        return $this->person;
-    }
-
-    public function setPerson(?Person $person): self
-    {
-        $this->person = $person;
-
-        return $this;
-    }
 
     public function __toString()
     {

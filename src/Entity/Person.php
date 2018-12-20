@@ -2,7 +2,10 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Query\Expr\From;
 
 /**
  * Person
@@ -38,7 +41,7 @@ class Person
     /**
      * @var ShareGroup
      *
-     * @ORM\ManyToOne(targetEntity="ShareGroup", inversedBy="person" )
+     * @ORM\ManyToOne(targetEntity="ShareGroup", inversedBy="person")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="share_group_id", referencedColumnName="id")
      * })
@@ -48,78 +51,52 @@ class Person
     /**
      * @var from
      *
-     * @ORM\OneToMany(targetEntity="shareGroup", mappedBy="person")
+     * @ORM\OneToMany(targetEntity="Debt", mappedBy="from")
 
      */
     private $from;
 
-    /**
-     * @return from
-     */
-    public function getFrom(): from
-    {
-        return $this->from;
-    }
 
-    /**
-     * @param from $from
-     * @return Person
-     */
-    public function setFrom(from $from): Person
-    {
-        $this->from = $from;
-        return $this;
-    }
-
-    /**
-     * @return to
-     */
-    public function getTo(): to
-    {
-        return $this->to;
-    }
-
-    /**
-     * @param to $to
-     * @return Person
-     */
-    public function setTo(to $to): Person
-    {
-        $this->to = $to;
-        return $this;
-    }
 
     /**
      * @var to
      *
-     * @ORM\OneToMany(targetEntity="shareGroup", mappedBy="person")
+     * @ORM\OneToMany(targetEntity="Debt", mappedBy="to")
      */
     private $to;
 
     /**
-     * @return mixed
+     * @return Collection
      */
-    public function getExpense()
+    public function getExpense(): Collection
     {
         return $this->expense;
     }
 
     /**
-     * @param mixed $expense
-     * @return Person
+     * @param Collection $expense
      */
-    public function setExpense($expense)
+    public function setExpense(Collection $expense): void
     {
         $this->expense = $expense;
-        return $this;
     }
 
+
     /**
-     * @var
+     * @var Collection
      * @ORM\OneToMany(targetEntity="Expense", mappedBy="person")
      */
 
     private $expense;
+
+    /**
+     * Person constructor.
+     * @param Collection $expense
+     */
+    public function __construct()
+    {
+        $this->expense = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -131,7 +108,7 @@ class Person
         return $this->firstname;
     }
 
-    public function setFirstname(string $firstname): self
+    public function setFirstname(?string $firstname): self
     {
         $this->firstname = $firstname;
 
@@ -143,7 +120,7 @@ class Person
         return $this->lastname;
     }
 
-    public function setLastname(string $lastname): self
+    public function setLastname(?string $lastname): self
     {
         $this->lastname = $lastname;
 

@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="share_group", uniqueConstraints={@ORM\UniqueConstraint(name="slug_UNIQUE", columns={"slug"})})
  * @ORM\Entity
- *  * @ORM\HasLifecycleCallbacks()
+ * @ORM\HasLifecycleCallbacks()
  */
 
 class ShareGroup
@@ -23,12 +23,6 @@ class ShareGroup
      */
     private $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="title", type="string", length=255, nullable=false)
-     */
-    private $title;
 
     /**
      * @var string
@@ -59,6 +53,8 @@ class ShareGroup
 
     private $person;
 
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -82,17 +78,6 @@ class ShareGroup
         return $this;
     }
 
-    public function getTitle(): ?string
-    {
-        return $this->title;
-    }
-
-    public function setTitle(string $title): self
-    {
-        $this->title = $title;
-
-        return $this;
-    }
 
     public function getSlug(): ?string
     {
@@ -131,7 +116,7 @@ class ShareGroup
     }
     public function __toString()
     {
-        return $this->getTitle();
+        return $this->getSlug();
     }
 
 }
